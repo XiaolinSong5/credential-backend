@@ -1,7 +1,0 @@
-DROP TABLE IF EXISTS CALCULATION;
-CREATE TABLE calculation (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    firstNumber INTEGER,
-    secondNumber INTEGER,
-    operator VARCHAR(50),
-    result INTEGER);

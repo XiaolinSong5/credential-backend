@@ -29,7 +29,7 @@ public class CalculatorController {
 
         System.out.println("add Pair: "+ calculation);
         Calculation entity =  service.add(calculation);
-        int a = jdbcTemplate.update(sql, 4,  entity.getFirstNumber(), entity.getSecondNumber(), "add", entity.getResult());
+       // int a = jdbcTemplate.update(sql, 4,  entity.getFirstNumber(), entity.getSecondNumber(), "add", entity.getResult());
         return entity.getResult();
     }
     @PostMapping("/subtract")
@@ -41,20 +41,9 @@ public class CalculatorController {
         System.out.println(Arrays.asList("GET","POST"));
         System.out.println("get Pair: ");
         String sql = "select * from calculation";
-        List calculations = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Calculation.class));
+        List calculations = new ArrayList();
+                //jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Calculation.class));
 
-//        calculations.add(Calculation.builder()
-//                .id(1)
-//                .firstNumber(2)
-//                .secondNumber(5)
-//                .result(7.0)
-//                .build());
-//        calculations.add(Calculation.builder()
-//                .id(2)
-//                .firstNumber(6)
-//                .secondNumber(5)
-//                .result(11.0)
-//                .build());
         return calculations;
     }
     @Bean
