@@ -1,0 +1,65 @@
+version: '3.7'
+services:
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:latest
+    ports:
+      - "4566-4597:4566-4597" # port of to where localstack can be addressed to
+      - "9000:9000"
+    environment:
+      - SERVICES=serverless,cloudformation,ssm
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-localstack}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-localstack}
+      - AWS_DEFAULT_REGION=${AWS_REGION:-eu-central-1}
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - ${TEMPDIR:-/tmp/localstack}:/tmp/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - basic
+
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    container_name: dynamodb-viewer
+    ports:
+      - "8001:8001"
+    environment:
+      DYNAMO_ENDPOINT: http://localstack:4566
+      AWS_REGION: ${AWS_REGION:-eu-central-1}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-localstack}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-localstack}
+    depends_on:
+      - localstack
+    networks:
+      - basic
+  setup-resources:
+    image: mesosphere/aws-cli
+    volumes:
+      -  ./my-dynamodb-data:/home/dynamodblocal/data
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-localstack}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-localstack}
+      - AWS_DEFAULT_REGION=${AWS_REGION:-eu-central-1}
+    entrypoint: /bin/sh -c
+    command: >
+      "
+        # Needed so all localstack components will startup correctly (i'm sure there's a better way to do this)
+        sleep 10;
+        aws dynamodb create-table --endpoint-url=http://localstack:4566 --table-name Credential \
+          --attribute-definitions AttributeName=id,AttributeType=N \
+          --key-schema AttributeName=id,KeyType=HASH \
+          --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5;
+        # you can go on and put initial items in tables...
+      "
+    networks:
+      - basic
+    depends_on:
+      - localstack
+
+
+networks:
+  basic:
+    driver: "bridge"
