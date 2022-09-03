@@ -52,6 +52,10 @@ services:
           --attribute-definitions AttributeName=id,AttributeType=N \
           --key-schema AttributeName=id,KeyType=HASH \
           --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5;
+      aws dynamodb create-table --endpoint-url=http://localstack:4566 --table-name Component \
+                --attribute-definitions AttributeName=name,AttributeType=S \
+                --key-schema AttributeName=name,KeyType=HASH \
+                --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5;
         # you can go on and put initial items in tables...
       "
     networks:

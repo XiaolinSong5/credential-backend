@@ -15,4 +15,8 @@ public class Calculation {
     private int secondNumber;
     private String operator;
     private double result;
+    private String name;
+    private String fullname;
+    private String description;
+    private String ownerType;
 }

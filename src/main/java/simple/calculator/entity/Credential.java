@@ -1,7 +1,8 @@
 package simple.calculator.entity;
 
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbImmutable;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-
+@DynamoDbImmutable(builder = Credential.Builder.class)
 public class Credential {
     private final int id;
     private final String company;
