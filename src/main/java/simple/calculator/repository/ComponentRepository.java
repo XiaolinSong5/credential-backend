@@ -12,12 +12,14 @@ public class ComponentRepository  extends GenericRepository {
         Component component = Component.builder()
                 .name("PAO")
                 .fullname("to do")
+                .ticketType("")
                 .description("marktprijs 2 jr broker, API")
                 .ownerType("external")
                 .build();
         Component component1 = Component.builder()
                 .name(calculation.getName())
                 .fullname(calculation.getFullname())
+                .ticketType(calculation.getTicketType())
                 .description(calculation.getDescription())
                 .ownerType(calculation.getOwnerType())
                 .build();

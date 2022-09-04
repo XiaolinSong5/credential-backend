@@ -6,11 +6,13 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbParti
 public class Component {
     private final String name;
     private final String fullname;
+    private final String ticketType;
     private final String description;
     private final String ownerType;
     public Component(Component.Builder b) {
         this.name = b.name;
-        this. fullname = b.fullname;
+        this.fullname = b.fullname;
+        this.ticketType = b.ticketType;
         this.description = b.description;
         this.ownerType = b.ownerType;
     }
@@ -25,6 +27,9 @@ public class Component {
     public String fullname() {
         return this.fullname;
     }
+    public String ticketType() {
+        return this.ticketType;
+    }
 
     public String description() {
         return this.description;
@@ -36,6 +41,7 @@ public class Component {
     public static final class Builder {
         private String name;
         private String fullname;
+        private String ticketType;
         private String description;
         private String ownerType;
 
@@ -45,6 +51,10 @@ public class Component {
         }
         public Component.Builder fullname(String fullname) {
             this.fullname = fullname;
+            return this;
+        }
+        public Component.Builder ticketType(String ticketType) {
+            this.ticketType = ticketType;
             return this;
         }
         public Component.Builder description(String description) {
