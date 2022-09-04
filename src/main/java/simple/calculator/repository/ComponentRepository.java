@@ -19,6 +19,7 @@ public class ComponentRepository  extends GenericRepository {
         Component component1 = Component.builder()
                 .name(calculation.getName())
                 .fullname(calculation.getFullname())
+                .phase(calculation.getPhase())
                 .ticketType(calculation.getTicketType())
                 .description(calculation.getDescription())
                 .ownerType(calculation.getOwnerType())

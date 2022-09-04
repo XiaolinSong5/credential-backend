@@ -17,6 +17,7 @@ public class Calculation {
     private double result;
     private String name;
     private String fullname;
+    private String phase;
     private String ticketType;
     private String description;
     private String ownerType;
