@@ -1,5 +1,15 @@
 version: '3.7'
 services:
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: user
+    ports:
+      - 27017:27017
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-monog.js:ro
+      - ./mongodb_volume:/data/db
+
   localstack:
     container_name: localstack
     image: localstack/localstack:latest
